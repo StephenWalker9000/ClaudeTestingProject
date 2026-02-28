@@ -1,13 +1,14 @@
 /* ============================================
-   PAGE
+   PAGE — night sky background
    ============================================ */
 .page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #5bbcd4 0%, #87ceeb 100%);
+  background: radial-gradient(ellipse at 50% 30%, #1a3a5c 0%, #0a1628 60%, #000 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px 20px;
+  overflow: hidden;
 }
 
 /* ============================================
@@ -18,66 +19,78 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 680px;
+  max-width: 700px;
 }
 
 /* ============================================
-   TOP POST — blue rectangle with starburst
+   TOP POST
    ============================================ */
 .top-post {
   width: 110px;
-  background: #1b6fa8;
+  background: linear-gradient(to right, #0d4f7a, #1b6fa8 40%, #3a9fd4 50%, #1b6fa8 60%, #0d4f7a);
   padding: 12px 12px 0 12px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  box-shadow: inset -4px 0 8px rgba(0,0,0,0.2), inset 4px 0 8px rgba(0,0,0,0.2);
   border-radius: 4px 4px 0 0;
   position: relative;
   z-index: 2;
+  box-shadow: 0 0 18px rgba(58, 159, 212, 0.6), 0 0 40px rgba(58, 159, 212, 0.3);
 }
 
 /* ============================================
-   STARBURST — red 8-point star with gold outline
+   STARBURST — animated spinning neon star
    ============================================ */
 .starburst {
-  width: 110px;
-  height: 110px;
+  width: 120px;
+  height: 120px;
   position: relative;
   margin-bottom: -10px;
+  animation: starSpin 6s linear infinite;
+  filter:
+    drop-shadow(0 0 6px #ff2244)
+    drop-shadow(0 0 16px #ff2244)
+    drop-shadow(0 0 32px rgba(255, 34, 68, 0.7));
 }
 
-/* Use two overlapping squares rotated 22.5° apart for 8-point star */
 .starburst::before,
 .starburst::after,
 .starburst-inner {
   content: '';
   position: absolute;
-  inset: 10px;
   background: #c8102e;
   border: 3px solid #f5c518;
 }
 
 .starburst::before {
-  transform: rotate(0deg);
+  inset: 8px;
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 .starburst::after {
-  transform: rotate(45deg);
+  inset: 8px;
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transform: rotate(45deg);
 }
 
 .starburst-inner {
-  transform: rotate(22.5deg);
+  inset: 16px;
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  transform: rotate(22.5deg);
   background: #c8102e;
   border: none;
-  inset: 18px;
+}
+
+@keyframes starSpin {
+  0%   { filter: drop-shadow(0 0 6px #ff2244) drop-shadow(0 0 18px #ff2244) drop-shadow(0 0 36px rgba(255,34,68,0.6)); }
+  25%  { filter: drop-shadow(0 0 6px #f5c518) drop-shadow(0 0 18px #f5c518) drop-shadow(0 0 36px rgba(245,197,24,0.6)); }
+  50%  { filter: drop-shadow(0 0 6px #ff2244) drop-shadow(0 0 18px #ff2244) drop-shadow(0 0 36px rgba(255,34,68,0.6)); }
+  75%  { filter: drop-shadow(0 0 6px #f5c518) drop-shadow(0 0 18px #f5c518) drop-shadow(0 0 36px rgba(245,197,24,0.6)); }
+  100% { filter: drop-shadow(0 0 6px #ff2244) drop-shadow(0 0 18px #ff2244) drop-shadow(0 0 36px rgba(255,34,68,0.6)); }
 }
 
 /* ============================================
-   SIGN BODY — the oval/diamond shape
+   SIGN BODY
    ============================================ */
 .sign-body {
   width: 100%;
@@ -85,98 +98,185 @@
   z-index: 1;
 }
 
-/* Gold outer border with bulb dots via repeating radial-gradient */
+/* ============================================
+   SIGN BORDER — gold oval with animated bulbs
+   ============================================ */
 .sign-border {
-  background: #e8d16b;
+  background: #d4aa20;
   border-radius: 50% / 30%;
-  padding: 14px;
+  padding: 18px 18px 18px 18px;
+  position: relative;
   box-shadow:
-    0 4px 20px rgba(0,0,0,0.35),
-    0 0 0 3px #c9a227;
-
-  /* Simulate bulb dots around the border */
-  background-image:
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      transparent 0px,
-      transparent 8px,
-      rgba(255,255,255,0.6) 8px,
-      rgba(255,255,255,0.6) 10px
-    );
-  background-color: #e8d16b;
+    0 0 20px rgba(245, 197, 24, 0.8),
+    0 0 50px rgba(245, 197, 24, 0.4),
+    0 0 90px rgba(245, 197, 24, 0.2),
+    0 6px 30px rgba(0,0,0,0.5);
+  animation: borderPulse 2s ease-in-out infinite;
 }
 
-/* White inner oval */
-.sign-inner {
-  background: #f8f4e3;
-  border-radius: 50% / 28%;
-  padding: 28px 48px 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  box-shadow: inset 0 2px 10px rgba(0,0,0,0.08);
+@keyframes borderPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(245,197,24,0.8),
+      0 0 50px rgba(245,197,24,0.4),
+      0 0 90px rgba(245,197,24,0.2),
+      0 6px 30px rgba(0,0,0,0.5);
+  }
+  50% {
+    box-shadow:
+      0 0 35px rgba(245,197,24,1),
+      0 0 80px rgba(245,197,24,0.7),
+      0 0 130px rgba(245,197,24,0.35),
+      0 6px 30px rgba(0,0,0,0.5);
+  }
 }
 
 /* ============================================
-   WELCOME ROW — individual letter circles
+   BULB RING — absolutely positioned bulbs
+   around the oval border
+   ============================================ */
+.bulb-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% / 30%;
+  pointer-events: none;
+}
+
+.bulb {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff8c0;
+  border: 2px solid #c9a227;
+  box-shadow: 0 0 6px #fff, 0 0 12px #f5c518;
+
+  /* Place each bulb around the oval using CSS custom properties + trig hack via offset */
+  --angle: calc(var(--index) / var(--total) * 360deg);
+  /* oval: rx=50%, ry=50% in border terms */
+  left: calc(50% + cos(var(--angle)) * 47% - 7px);
+  top:  calc(50% + sin(var(--angle)) * 43% - 7px);
+
+  animation: bulbFlash 0.9s ease-in-out infinite;
+  animation-delay: calc(var(--phase) * 0.3s);
+}
+
+@keyframes bulbFlash {
+  0%, 100% {
+    background: #fff8c0;
+    box-shadow: 0 0 6px #fff, 0 0 14px #f5c518, 0 0 24px #f5c518;
+    opacity: 1;
+  }
+  50% {
+    background: #ffee55;
+    box-shadow: 0 0 10px #fff, 0 0 22px #f5c518, 0 0 40px rgba(245,197,24,0.9);
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
+   SIGN INNER — cream oval
+   ============================================ */
+.sign-inner {
+  background: #f8f4e3;
+  border-radius: 50% / 26%;
+  padding: 32px 56px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  box-shadow: inset 0 2px 12px rgba(0,0,0,0.1);
+}
+
+/* ============================================
+   WELCOME CIRCLES
    ============================================ */
 .welcome-row {
   display: flex;
   gap: 6px;
   justify-content: center;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .letter-circle {
-  width: clamp(38px, 7.5vw, 68px);
-  height: clamp(38px, 7.5vw, 68px);
+  width: clamp(40px, 7.5vw, 70px);
+  height: clamp(40px, 7.5vw, 70px);
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #ffffff 0%, #e8e8e8 60%, #c8c8c8 100%);
-  border: 3px solid #aaa;
+  background: radial-gradient(circle at 38% 32%, #ffffff 0%, #e4e4e4 55%, #bebebe 100%);
+  border: 3px solid #999;
   box-shadow:
-    0 3px 6px rgba(0,0,0,0.3),
-    inset 0 2px 4px rgba(255,255,255,0.8),
-    inset 0 -2px 4px rgba(0,0,0,0.15);
+    0 4px 8px rgba(0,0,0,0.35),
+    inset 0 2px 5px rgba(255,255,255,0.9),
+    inset 0 -2px 4px rgba(0,0,0,0.15),
+    0 0 0 2px rgba(255,255,255,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  animation: circleGlow 1.8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.12s);
 }
 
-/* Small mounting studs on circles */
+.letter-circle:nth-child(1) { --i: 0; }
+.letter-circle:nth-child(2) { --i: 1; }
+.letter-circle:nth-child(3) { --i: 2; }
+.letter-circle:nth-child(4) { --i: 3; }
+.letter-circle:nth-child(5) { --i: 4; }
+.letter-circle:nth-child(6) { --i: 5; }
+.letter-circle:nth-child(7) { --i: 6; }
+
+@keyframes circleGlow {
+  0%, 100% {
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.35),
+      inset 0 2px 5px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(0,0,0,0.15);
+  }
+  50% {
+    box-shadow:
+      0 4px 8px rgba(0,0,0,0.35),
+      inset 0 2px 5px rgba(255,255,255,0.9),
+      inset 0 -2px 4px rgba(0,0,0,0.15),
+      0 0 14px rgba(200, 16, 46, 0.6),
+      0 0 28px rgba(200, 16, 46, 0.3);
+  }
+}
+
 .letter-circle::before {
   content: '';
   position: absolute;
-  top: -6px;
+  top: -7px;
   left: 50%;
   transform: translateX(-50%);
-  width: 8px;
-  height: 8px;
-  background: #bbb;
+  width: 9px;
+  height: 9px;
+  background: radial-gradient(circle at 40% 35%, #ddd, #999);
   border-radius: 50%;
-  border: 1px solid #999;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  border: 1px solid #888;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
 }
 
 .letter-circle-text {
   font-size: clamp(18px, 4vw, 36px);
   font-weight: 900;
   color: #c8102e;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: 'Georgia', serif;
   font-style: italic;
-  text-shadow: 1px 1px 0 rgba(0,0,0,0.2);
   line-height: 1;
+  text-shadow:
+    0 0 8px rgba(200,16,46,0.5),
+    1px 1px 0 rgba(0,0,0,0.2);
 }
 
 /* ============================================
-   "TO Fabulous" ROW
+   TO FABULOUS ROW
    ============================================ */
 .to-fabulous-row {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .to-text {
@@ -185,34 +285,67 @@
   color: #1b6fa8;
   letter-spacing: 0.15em;
   font-family: 'Georgia', serif;
+  text-shadow: 0 0 10px rgba(27, 111, 168, 0.7), 0 0 20px rgba(27, 111, 168, 0.4);
+  animation: neonTeal 2.5s ease-in-out infinite;
 }
 
 .fabulous-text {
-  font-size: clamp(22px, 5vw, 42px);
+  font-size: clamp(24px, 5.5vw, 46px);
   font-weight: 400;
   color: #1b6fa8;
   font-family: 'Georgia', 'Palatino Linotype', serif;
   font-style: italic;
   letter-spacing: 0.02em;
+  text-shadow: 0 0 10px rgba(27, 111, 168, 0.8), 0 0 24px rgba(27, 111, 168, 0.5);
+  animation: neonTeal 2.5s ease-in-out infinite 0.4s;
+}
+
+@keyframes neonTeal {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(27,111,168,0.8), 0 0 20px rgba(27,111,168,0.5), 0 0 40px rgba(27,111,168,0.3);
+    color: #1b6fa8;
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(27,111,168,1), 0 0 35px rgba(27,111,168,0.8), 0 0 60px rgba(27,111,168,0.5);
+    color: #3ab8e8;
+  }
 }
 
 /* ============================================
-   CITY NAME
+   CITY NAME — neon red flicker
    ============================================ */
 .city-name {
-  font-size: clamp(36px, 10vw, 88px);
+  font-size: clamp(34px, 9.5vw, 84px);
   font-weight: 900;
   color: #c8102e;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: 'Georgia', serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   line-height: 1;
   margin-top: 4px;
-  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+  animation: neonRed 3s ease-in-out infinite;
+}
+
+@keyframes neonRed {
+  0%, 18%, 20%, 22%, 100% {
+    color: #c8102e;
+    text-shadow:
+      0 0 8px #ff2244,
+      0 0 20px #ff2244,
+      0 0 40px rgba(255,34,68,0.6),
+      0 0 70px rgba(255,34,68,0.3),
+      2px 2px 0 rgba(0,0,0,0.2);
+  }
+  19%, 21% {
+    color: rgba(200,16,46,0.7);
+    text-shadow:
+      0 0 4px #ff2244,
+      1px 1px 0 rgba(0,0,0,0.2);
+  }
 }
 
 /* ============================================
-   NEVADA
+   NEVADA — neon teal
    ============================================ */
 .nevada-text {
   font-size: clamp(14px, 3vw, 26px);
@@ -221,6 +354,7 @@
   letter-spacing: 0.35em;
   font-family: 'Georgia', serif;
   margin-top: 2px;
+  animation: neonTeal 2.5s ease-in-out infinite 0.8s;
 }
 
 /* ============================================
@@ -230,7 +364,6 @@
   display: flex;
   justify-content: space-between;
   width: 60%;
-  margin-top: 0;
 }
 
 .pole {
@@ -244,7 +377,7 @@
     #1b6fa8 75%,
     #0d4f7a 100%
   );
-  box-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(58,159,212,0.5), 0 0 24px rgba(58,159,212,0.25);
 }
 
 /* ============================================
@@ -252,14 +385,16 @@
    ============================================ */
 @media (max-width: 500px) {
   .sign-inner {
-    padding: 20px 24px 18px;
+    padding: 22px 28px 20px;
   }
-
   .welcome-row {
     gap: 3px;
   }
-
   .poles {
     width: 70%;
+  }
+  .bulb {
+    width: 10px;
+    height: 10px;
   }
 }
